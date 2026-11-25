@@ -1,0 +1,51 @@
+left_of(X, Y):-
+    ((X =:= Y-1); 
+     (X =:= 1, Y =:= 4)).
+    
+right_of(X, Y) :-
+    left_of(Y, X).
+    
+oppos(X, Y):-
+    (X =:= 1, Y =:= 3);
+    (X =:= 3, Y =:= 1);
+    (X =:= 2, Y =:= 4);
+    (X =:= 4, Y =:= 2).
+
+solve :-
+    Persons = [VolkPos, NifPos, NafPos, NufPos],
+    
+    % Рассадка за столом
+    permutation([1, 2, 3, 4], Persons),
+    
+    
+    Topics = [ThemeVolk, ThemeNif, ThemeNaf, ThemeNuf],
+    permutation([fauna, cosmos, flora, sport], Topics),
+    
+    ThemeVolk = fauna, 
+    ThemeNuf \= sport,
+    
+    left_of(VolkPos, NafPos), 
+    oppos(NufPos, NafPos), 
+    (ThemeVolk == cosmos -> CosmosPerson = VolkPos ; true),
+    (ThemeNif == cosmos  -> CosmosPerson = NifPos  ; true),
+    (ThemeNaf == cosmos  -> CosmosPerson = NafPos  ; true),
+    (ThemeNuf == cosmos  -> CosmosPerson = NufPos  ; true),
+    
+    right_of(NifPos, CosmosPerson),
+      
+    
+    format('Волк (место ~w): ~w~n', [VolkPos, ThemeVolk]),
+    format('Ниф (место ~w): ~w~n', [NifPos, ThemeNif]),
+    format('Наф (место ~w): ~w~n', [NafPos, ThemeNaf]),
+    format('Нуф (место ~w): ~w~n', [NufPos, ThemeNuf]).
+
+
+   
+
+
+
+
+
+
+
+
